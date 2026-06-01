@@ -1,0 +1,26 @@
+name: CI
+
+# Push to main -> tests run. Nothing is considered deploy-ready unless this is green.
+# (Streamlit Community Cloud auto-deploys from main; this gate keeps a broken
+#  commit from becoming a broken live demo.)
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install deps
+        run: pip install -r requirements.txt pytest
+      - name: Data + pipeline regression tests
+        run: pytest tests/ -v
+      - name: Persona robustness check
+        run: python code/eval/personas.py

@@ -1,0 +1,114 @@
+# EngageIQ — 15 technical domains matching BAX-423 brief exactly.
+# Keys are slug-friendly; labels match the brief's exact domain names.
+
+domains:
+  ml:
+    label: "Machine Learning"
+    keywords: [pytorch, sklearn, "machine learning", xgboost, "neural network", classification, regression, "model training"]
+    subreddits: [MachineLearning, learnmachinelearning]
+    gh_queries: ["topic:machine-learning stars:>100", "label:\"good first issue\" topic:sklearn"]
+    hn_terms: [pytorch, sklearn, "machine learning", xgboost]
+
+  devops_k8s:
+    label: "DevOps/K8s"
+    keywords: [kubernetes, terraform, docker, helm, ci/cd, ansible, observability, "cloud native"]
+    subreddits: [devops, kubernetes]
+    gh_queries: ["topic:kubernetes stars:>200", "topic:terraform pushed:>2026-04-01"]
+    hn_terms: [kubernetes, terraform, helm, observability]
+
+  trending_oss:
+    label: "Trending Open-Source"
+    keywords: [trending, "open source", "star growth", viral, "github trending", popular, rising]
+    subreddits: [opensource, programming]
+    gh_queries: ["stars:>500 pushed:>2026-05-01", "stars:>1000 created:>2026-01-01"]
+    hn_terms: ["open source", trending, "show hn"]
+
+  developer_tools:
+    label: "Developer Tools"
+    keywords: [cli, linter, formatter, "language server", debugger, "dev tool", ide, vscode, monorepo]
+    subreddits: [vscode, vim]
+    gh_queries: ["topic:developer-tools stars:>100", "topic:cli stars:>200"]
+    hn_terms: ["developer tools", cli, lsp, monorepo]
+
+  cybersecurity:
+    label: "Cybersecurity"
+    keywords: [appsec, owasp, cve, "supply chain", sast, fuzzing, pentest, exploit, vulnerability]
+    subreddits: [netsec, AskNetsec]
+    gh_queries: ["topic:security stars:>100", "topic:vulnerability-scanner"]
+    hn_terms: [owasp, cve, "supply chain security", pentest]
+
+  frontend_web:
+    label: "Frontend (React/Web)"
+    keywords: [react, vue, svelte, tailwind, typescript, nextjs, "web components", css, accessibility]
+    subreddits: [reactjs, webdev]
+    gh_queries: ["topic:react stars:>200", "topic:nextjs pushed:>2026-04-01"]
+    hn_terms: [react, svelte, nextjs, tailwind]
+
+  b2b_saas:
+    label: "B2B SaaS"
+    keywords: [saas, "product led", "api first", multitenant, billing, stripe, "b2b", subscription, churn]
+    subreddits: [SaaS, startups]
+    gh_queries: ["topic:saas stars:>50", "topic:stripe-api"]
+    hn_terms: [saas, "product led growth", stripe, multitenant]
+
+  blockchain:
+    label: "Blockchain"
+    keywords: [solidity, ethereum, "smart contract", defi, nft, web3, rollup, zk, dao]
+    subreddits: [ethdev, ethereum]
+    gh_queries: ["topic:solidity stars:>100", "topic:defi pushed:>2026-04-01"]
+    hn_terms: [ethereum, "smart contract", defi, zk]
+
+  python_data_eng:
+    label: "Python Data Eng"
+    keywords: [airflow, dbt, spark, kafka, "data pipeline", polars, pandas, lakehouse, etl]
+    subreddits: [dataengineering, apachespark]
+    gh_queries: ["topic:airflow stars:>100", "topic:dbt pushed:>2026-04-01"]
+    hn_terms: [dbt, airflow, "data pipeline", polars]
+
+  gamedev_cpp:
+    label: "GameDev (C++)"
+    keywords: [unity, unreal, godot, "game engine", "c++ game", opengl, vulkan, shaders, ecs]
+    subreddits: [gamedev, unrealengine]
+    gh_queries: ["topic:game-engine language:C++ stars:>100", "topic:godot"]
+    hn_terms: [godot, unreal, "game engine", vulkan]
+
+  ai_research:
+    label: "AI Research"
+    keywords: [llm, transformer, "large language model", rag, "fine tuning", diffusion, "reinforcement learning", arxiv]
+    subreddits: [LocalLLaMA, artificial]
+    gh_queries: ["topic:llm stars:>300", "topic:rag pushed:>2026-04-01"]
+    hn_terms: [llm, rag, "fine-tuning", transformer]
+
+  embedded_systems:
+    label: "Embedded Systems (C/RTOS)"
+    keywords: [rtos, arduino, "bare metal", firmware, embedded, microcontroller, freertos, "c programming", stm32]
+    subreddits: [embedded, arduino]
+    gh_queries: ["topic:embedded language:C stars:>50", "topic:rtos"]
+    hn_terms: [rtos, embedded, firmware, microcontroller]
+
+  cloud_apis:
+    label: "Cloud APIs"
+    keywords: [aws, lambda, serverless, gcp, azure, "cloud run", "rest api", openapi, iam]
+    subreddits: [aws, googlecloud]
+    gh_queries: ["topic:serverless stars:>100", "topic:aws-lambda pushed:>2026-04-01"]
+    hn_terms: [serverless, lambda, "cloud run", openapi]
+
+  mobile_dev:
+    label: "Mobile Dev (iOS/Flutter)"
+    keywords: [swift, kotlin, flutter, "react native", swiftui, android, ios, jetpack, "mobile app"]
+    subreddits: [iOSProgramming, FlutterDev]
+    gh_queries: ["topic:flutter stars:>200", "topic:swiftui pushed:>2026-04-01"]
+    hn_terms: [flutter, swiftui, "react native", kotlin]
+
+  beginner_coding:
+    label: "Beginner Coding"
+    keywords: ["good first issue", beginner, "first contribution", "help wanted", tutorial, "learn to code", "open to prs"]
+    subreddits: [learnprogramming, learnpython]
+    gh_queries: ["label:\"good first issue\" stars:>50 pushed:>2026-04-01", "label:\"help wanted\" is:open"]
+    hn_terms: ["learn to code", beginner, tutorial, "first contribution"]
+
+# Source weighting for visibility_potential scoring
+source_visibility_prior:
+  github: 0.85
+  hackernews: 0.95
+  reddit: 0.70

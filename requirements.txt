@@ -1,0 +1,24 @@
+# EngageIQ — BAX-423 Final Project
+# Core runtime (required to run the app on the offline snapshot)
+streamlit>=1.36
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.4
+pyyaml>=6.0
+faiss-cpu>=1.8
+datasketch>=1.6
+plotly>=5.20
+reportlab>=4.0
+
+# Embeddings: app auto-uses Sentence-BERT when installed, else TF-IDF+SVD fallback.
+sentence-transformers>=2.7
+
+# Real ingestion (only needed to refresh the dataset from live sources)
+requests>=2.31
+praw>=7.7
+
+# Optional: LLM-written "Suggested Action" (falls back to free templates if absent)
+anthropic>=0.34
+
+# Benchmark charts
+matplotlib>=3.8
