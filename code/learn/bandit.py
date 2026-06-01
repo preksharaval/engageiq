@@ -92,23 +92,46 @@ class LinUCB:
 
 
 # ---- store helpers -----------------------------------------------------
+def _ensure_bandit_table(conn):
+    """Create the bandit_state table if missing or with a legacy column name.
+    Guarantees a 'blob' column exists so load/save never hit a schema error."""
+    conn.execute("""CREATE TABLE IF NOT EXISTS bandit_state (
+        user_id TEXT PRIMARY KEY, blob BLOB, updated_at TEXT)""")
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(bandit_state)")}
+    if "blob" not in cols:
+        # legacy table (e.g. a 'state' column from an older snapshot) — migrate.
+        conn.execute("DROP TABLE bandit_state")
+        conn.execute("""CREATE TABLE bandit_state (
+            user_id TEXT PRIMARY KEY, blob BLOB, updated_at TEXT)""")
+    conn.commit()
+
+
 def load_bandit(user_id: str, alpha: float = 0.6) -> LinUCB:
-    conn = connect()
-    row = conn.execute("SELECT blob FROM bandit_state WHERE user_id=?", (user_id,)).fetchone()
-    conn.close()
-    if row and row["blob"]:
-        return LinUCB.loads(row["blob"])
+    """Load a user's bandit, or return a fresh one (cold start) on any issue."""
+    try:
+        conn = connect()
+        _ensure_bandit_table(conn)
+        row = conn.execute("SELECT blob FROM bandit_state WHERE user_id=?", (user_id,)).fetchone()
+        conn.close()
+        if row and row["blob"]:
+            return LinUCB.loads(row["blob"])
+    except Exception:
+        pass  # never let persistence break ranking — fall back to cold start
     return LinUCB(alpha=alpha)
 
 
 def save_bandit(user_id: str, model: LinUCB):
-    conn = connect()
-    conn.execute(
-        "INSERT OR REPLACE INTO bandit_state(user_id, blob, updated_at) VALUES (?,?,?)",
-        (user_id, model.dumps(), dt.datetime.utcnow().isoformat()),
-    )
-    conn.commit()
-    conn.close()
+    try:
+        conn = connect()
+        _ensure_bandit_table(conn)
+        conn.execute(
+            "INSERT OR REPLACE INTO bandit_state(user_id, blob, updated_at) VALUES (?,?,?)",
+            (user_id, model.dumps(), dt.datetime.utcnow().isoformat()),
+        )
+        conn.commit()
+        conn.close()
+    except Exception:
+        pass  # a failed save just means this round of learning isn't persisted
 
 
 def record_feedback(user_id: str, opp: dict, action: str):
