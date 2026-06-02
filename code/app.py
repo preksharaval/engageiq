@@ -22,19 +22,19 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 :root {
-  --bg:        #ffffff;
-  --surface:   #ffffff;
-  --glass:     #ffffff;
-  --glass-b:   #e6e8eb;
-  --accent:    #3b5bdb;
-  --accent2:   #7c3aed;
-  --accent3:   #d97706;
-  --text:      #0f1115;
-  --muted:     #6b7280;
-  --success:   #059669;
-  --danger:    #dc2626;
-  --surface-2: #f7f8fa;
-  --grad:      linear-gradient(135deg,#3b5bdb,#7c3aed);
+  --bg:        #0a0b0f;
+  --surface:   #15171f;
+  --glass:     #15171f;
+  --glass-b:   #2a2d3a;
+  --accent:    #818cf8;
+  --accent2:   #c4b5fd;
+  --accent3:   #fbbf24;
+  --text:      #f3f4f6;
+  --muted:     #a1a8b5;
+  --success:   #34d399;
+  --danger:    #f87171;
+  --surface-2: #1c1f29;
+  --grad:      linear-gradient(135deg,#818cf8,#c4b5fd);
 }
 
 html, body, [data-testid="stApp"] {
@@ -45,7 +45,7 @@ html, body, [data-testid="stApp"] {
 
 /* sidebar */
 [data-testid="stSidebar"] {
-  background: #fafbfc !important;
+  background: #0f1117 !important;
   border-right: 1px solid var(--glass-b) !important;
 }
 [data-testid="stSidebar"] * { color: var(--text) !important; }
@@ -55,7 +55,7 @@ html, body, [data-testid="stApp"] {
 .eq-header h1 {
   font-family:'Space Grotesk',sans-serif; font-size:3.4rem; font-weight:700;
   letter-spacing:-1.5px;
-  background: linear-gradient(90deg,#3b5bdb,#7c3aed);
+  background: linear-gradient(90deg,#818cf8,#c4b5fd);
   -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
   margin:0; line-height:1;
 }
@@ -71,7 +71,7 @@ html, body, [data-testid="stApp"] {
   transition: all 0.2s ease; position:relative; overflow:hidden;
 }
 .eq-card:hover {
-  border-color:#cdd2da; box-shadow: 0 4px 20px rgba(15,17,21,0.06);
+  border-color:#3d4152; box-shadow: 0 4px 24px rgba(0,0,0,0.4);
   transform: translateY(-1px);
 }
 
@@ -79,10 +79,10 @@ html, body, [data-testid="stApp"] {
 .rank-badge { display:inline-flex; align-items:center; justify-content:center;
   width:32px; height:32px; border-radius:50%; font-family:'Space Grotesk',sans-serif;
   font-weight:700; font-size:0.8rem; flex-shrink:0; }
-.rank-1 { background: linear-gradient(135deg,#f59e0b,#ef4444); color:#fff; }
+.rank-1 { background: linear-gradient(135deg,#fbbf24,#f87171); color:#1a1a1a; }
 .rank-2 { background: linear-gradient(135deg,#cbd5e1,#94a3b8); color:#1a1a1a; }
-.rank-3 { background: linear-gradient(135deg,#d97706,#b45309); color:#fff; }
-.rank-n { background: #eef0f3; color: var(--muted); }
+.rank-3 { background: linear-gradient(135deg,#fbbf24,#d97706); color:#1a1a1a; }
+.rank-n { background: #262936; color: var(--muted); }
 
 /* score */
 .score-ring { display:flex; flex-direction:column; align-items:center; gap:2px; }
@@ -93,46 +93,46 @@ html, body, [data-testid="stApp"] {
 .chip { display:inline-block; padding:2px 10px; border-radius:999px;
   font-family:'Inter',sans-serif; font-size:0.68rem; font-weight:600;
   letter-spacing:0.3px; text-transform:uppercase; }
-.chip-github    { background:#eef2ff; color:#4f46e5; border:1px solid #c7d2fe; }
-.chip-hackernews{ background:#fff7ed; color:#c2410c; border:1px solid #fed7aa; }
-.chip-reddit    { background:#fef2f2; color:#dc2626; border:1px solid #fecaca; }
+.chip-github    { background:rgba(129,140,248,0.18); color:#a5b4fc; border:1px solid rgba(129,140,248,0.4); }
+.chip-hackernews{ background:rgba(251,191,36,0.16); color:#fcd34d; border:1px solid rgba(251,191,36,0.4); }
+.chip-reddit    { background:rgba(248,113,113,0.16); color:#fca5a5; border:1px solid rgba(248,113,113,0.4); }
 
 /* domain tag */
 .domain-tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:0.65rem;
-  background:#eef2ff; color:#4f46e5; border:1px solid #c7d2fe; font-family:'Inter',sans-serif; }
+  background:rgba(129,140,248,0.14); color:#a5b4fc; border:1px solid rgba(129,140,248,0.3); font-family:'Inter',sans-serif; }
 
 .action-row { display:flex; gap:8px; margin-top:0.75rem; }
 
 /* why panel */
 .why-bar-wrap { margin:0.5rem 0; }
 .why-label { font-size:0.72rem; color: var(--muted); margin-bottom:2px; font-family:'Inter',sans-serif; }
-.why-bar-bg { background:#eef0f3; border-radius:4px; height:8px; overflow:hidden; }
+.why-bar-bg { background:rgba(255,255,255,0.08); border-radius:4px; height:8px; overflow:hidden; }
 .why-bar-fill { height:100%; border-radius:4px; transition: width 0.6s ease; }
 
 /* metric pill */
 .metric-pill { display:inline-flex; align-items:center; gap:6px; padding:4px 12px;
-  border-radius:999px; background:#f7f8fa; border:1px solid var(--glass-b);
+  border-radius:999px; background:var(--surface-2); border:1px solid var(--glass-b);
   font-size:0.72rem; font-family:'Inter',sans-serif; color: var(--text); }
 
 /* tabs */
-.stTabs [data-baseweb="tab-list"] { background:#f7f8fa; border-radius:12px; padding:4px; gap:4px; border:1px solid var(--glass-b); }
+.stTabs [data-baseweb="tab-list"] { background:var(--surface-2); border-radius:12px; padding:4px; gap:4px; border:1px solid var(--glass-b); }
 .stTabs [data-baseweb="tab"] { border-radius:8px !important; color: var(--muted) !important; font-family:'Space Grotesk',sans-serif !important; font-weight:600 !important; font-size:0.85rem !important; }
-.stTabs [aria-selected="true"] { background:#ffffff !important; color: var(--accent) !important; border:1px solid var(--glass-b) !important; box-shadow:0 1px 3px rgba(15,17,21,0.06); }
+.stTabs [aria-selected="true"] { background:rgba(129,140,248,0.16) !important; color: #c4b5fd !important; border:1px solid rgba(129,140,248,0.35) !important; }
 
 /* inputs */
 .stSelectbox > div, .stMultiSelect > div, .stSlider, .stTextArea textarea {
-  background:#ffffff !important; border:1px solid var(--glass-b) !important; border-radius:10px !important; color: var(--text) !important; }
-.stTextArea textarea { background:#ffffff !important; color: var(--text) !important; }
+  background:var(--surface-2) !important; border:1px solid var(--glass-b) !important; border-radius:10px !important; color: var(--text) !important; }
+.stTextArea textarea { background:var(--surface-2) !important; color: var(--text) !important; }
 
 /* buttons */
-.stButton button { background:#ffffff !important; border:1px solid var(--glass-b) !important; color: var(--accent) !important; border-radius:8px !important; font-family:'Inter',sans-serif !important; font-weight:600 !important; font-size:0.78rem !important; transition: all 0.2s !important; }
-.stButton button:hover { background:#f7f8fa !important; border-color: var(--accent) !important; transform: translateY(-1px) !important; }
+.stButton button { background:var(--surface-2) !important; border:1px solid var(--glass-b) !important; color: #c4b5fd !important; border-radius:8px !important; font-family:'Inter',sans-serif !important; font-weight:600 !important; font-size:0.78rem !important; transition: all 0.2s !important; }
+.stButton button:hover { background:rgba(129,140,248,0.16) !important; border-color: var(--accent) !important; transform: translateY(-1px) !important; }
 
 /* misc */
 .stMarkdown h3 { font-family:'Space Grotesk',sans-serif; font-size:1rem; color: var(--text); }
 hr { border-color: var(--glass-b) !important; }
 .stSpinner { color: var(--accent) !important; }
-[data-testid="stMetric"] { background:#ffffff; border-radius:12px; padding:0.85rem 1rem; border:1px solid var(--glass-b); }
+[data-testid="stMetric"] { background:var(--surface); border-radius:12px; padding:0.85rem 1rem; border:1px solid var(--glass-b); }
 [data-testid="stMetricValue"] { color: var(--accent) !important; font-family:'Space Grotesk',sans-serif !important; }
 [data-testid="stMetricLabel"] { color: var(--muted) !important; font-size:0.72rem !important; }
 </style>
@@ -181,8 +181,8 @@ DOMAIN_LABELS = {
 SOURCE_COLORS = {"github": "chip-github", "hackernews": "chip-hackernews", "reddit": "chip-reddit"}
 SOURCE_ICONS  = {"github": "⬡", "hackernews": "◈", "reddit": "◉"}
 COMP_COLORS   = {
-    "relevance":          "#3b5bdb",
-    "community_health":   "#7c3aed",
+    "relevance":          "#818cf8",
+    "community_health":   "#c4b5fd",
     "visibility_potential":"#f59e0b",
     "effort_inv":         "#10b981",
 }
@@ -260,7 +260,7 @@ def opp_card(opp, rank):
         with c2:
             st.markdown("**Suggested action**")
             action = suggest_action(opp)
-            st.markdown(f"""<div style="background:#eef2ff;border-left:3px solid var(--accent);
+            st.markdown(f"""<div style="background:rgba(129,140,248,0.10);border-left:3px solid var(--accent);
                             border-radius:8px;padding:10px 14px;font-size:0.82rem;line-height:1.5;
                             color:#cbd5e1;">{action}</div>""", unsafe_allow_html=True)
             st.markdown(f"[🔗 View on {src}]({opp.get('url','#')})")
@@ -277,11 +277,11 @@ def opp_card(opp, rank):
 with st.sidebar:
     st.markdown("""<div style="text-align:center;padding:1rem 0 0.5rem;">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;
-                  background:linear-gradient(90deg,#3b5bdb,#7c3aed);
+                  background:linear-gradient(90deg,#818cf8,#c4b5fd);
                   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
                   background-clip:text;">⚡ EngageIQ</div>
       <div style="font-family:'Inter',sans-serif;font-size:0.65rem;
-                  color:#6b7280;letter-spacing:2px;text-transform:uppercase;">
+                  color:#a1a8b5;letter-spacing:2px;text-transform:uppercase;">
         opportunity scorer
       </div>
     </div>""", unsafe_allow_html=True)
@@ -387,23 +387,23 @@ with tab1:
                     marker=dict(
                         size=8,
                         color=[r.get("final",r["composite"]) for r in results],
-                        colorscale=[[0,"#3b5bdb"],[0.5,"#7c3aed"],[1,"#d97706"]],
+                        colorscale=[[0,"#818cf8"],[0.5,"#c4b5fd"],[1,"#fbbf24"]],
                         opacity=0.85,
-                        line=dict(width=1, color="rgba(15,17,21,0.15)"),
+                        line=dict(width=1, color="rgba(255,255,255,0.25)"),
                     ),
-                    textfont=dict(color="#0f1115", size=9),
+                    textfont=dict(color="#f3f4f6", size=9),
                 )])
                 fig.update_layout(
                     paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                     margin=dict(l=0,r=0,t=30,b=0), height=300,
-                    font=dict(color="#374151", family="Inter"),
+                    font=dict(color="#d1d5db", family="Inter"),
                     scene=dict(
                         bgcolor="rgba(0,0,0,0)",
-                        xaxis=dict(title="Relevance", color="#6b7280", gridcolor="#e6e8eb"),
-                        yaxis=dict(title="Community", color="#6b7280", gridcolor="#e6e8eb"),
-                        zaxis=dict(title="Visibility", color="#6b7280", gridcolor="#e6e8eb"),
+                        xaxis=dict(title="Relevance", color="#9ca3af", gridcolor="#2a2d3a"),
+                        yaxis=dict(title="Community", color="#9ca3af", gridcolor="#2a2d3a"),
+                        zaxis=dict(title="Visibility", color="#9ca3af", gridcolor="#2a2d3a"),
                     ),
-                    title=dict(text="3D opportunity space", font=dict(color="#3b5bdb", size=12, family="Inter"), x=0.5),
+                    title=dict(text="3D opportunity space", font=dict(color="#818cf8", size=12, family="Inter"), x=0.5),
                 )
                 st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
@@ -419,12 +419,12 @@ with tab2:
         fig_kw = px.bar(kw.sort_values("estimated_freq"), x="estimated_freq", y="keyword",
                         orientation="h",
                         color="estimated_freq",
-                        color_continuous_scale=[[0,"#c7d2fe"],[1,"#3b5bdb"]],
+                        color_continuous_scale=[[0,"#4f46e5"],[1,"#818cf8"]],
                         labels={"estimated_freq":"Count-Min estimate","keyword":""})
         fig_kw.update_layout(
             paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#374151", family="Inter"),
-            xaxis=dict(gridcolor="#e6e8eb"), yaxis=dict(gridcolor="#e6e8eb"),
+            font=dict(color="#d1d5db", family="Inter"),
+            xaxis=dict(gridcolor="#2a2d3a"), yaxis=dict(gridcolor="#2a2d3a"),
             coloraxis_showscale=False, margin=dict(l=0,r=0,t=10,b=20), height=300,
         )
         st.plotly_chart(fig_kw, use_container_width=True)
@@ -442,21 +442,21 @@ with tab2:
         mix = T.source_mix()
         if not mix.empty:
             fig_pie = px.pie(mix, names="source", values="count",
-                             color_discrete_sequence=["#3b5bdb","#d97706","#dc2626"])
+                             color_discrete_sequence=["#818cf8","#fbbf24","#f87171"])
             fig_pie.update_layout(paper_bgcolor="rgba(0,0,0,0)",
-                                  font=dict(color="#374151"), margin=dict(l=0,r=0,t=20,b=0), height=250)
+                                  font=dict(color="#d1d5db"), margin=dict(l=0,r=0,t=20,b=0), height=250)
             st.plotly_chart(fig_pie, use_container_width=True)
 
     st.markdown("### 📊 Volume Over Time")
     vol = T.volume_over_time(window_hours=72)
     if not vol.empty:
         fig_vol = px.area(vol, x="hour", y="count",
-                          color_discrete_sequence=["#3b5bdb"])
-        fig_vol.update_traces(fill="tozeroy", fillcolor="rgba(59,91,219,0.10)", line=dict(color="#3b5bdb", width=2))
+                          color_discrete_sequence=["#818cf8"])
+        fig_vol.update_traces(fill="tozeroy", fillcolor="rgba(129,140,248,0.12)", line=dict(color="#818cf8", width=2))
         fig_vol.update_layout(
             paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#374151", family="Inter"),
-            xaxis=dict(gridcolor="#e6e8eb"), yaxis=dict(gridcolor="#e6e8eb"),
+            font=dict(color="#d1d5db", family="Inter"),
+            xaxis=dict(gridcolor="#2a2d3a"), yaxis=dict(gridcolor="#2a2d3a"),
             margin=dict(l=0,r=0,t=10,b=40), height=220,
         )
         st.plotly_chart(fig_vol, use_container_width=True)
@@ -516,11 +516,11 @@ with tab4:
     m4.metric("Real Records", f"{n_real:,}")
 
     fig_dom = px.bar(domain_df, x="domain", y="count",
-                     color="count", color_continuous_scale=[[0,"#c7d2fe"],[1,"#3b5bdb"]])
+                     color="count", color_continuous_scale=[[0,"#4f46e5"],[1,"#818cf8"]])
     fig_dom.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-                           font=dict(color="#374151",family="Inter"),
-                           xaxis=dict(tickangle=-35,gridcolor="#e6e8eb"),
-                           yaxis=dict(gridcolor="#e6e8eb"), coloraxis_showscale=False,
+                           font=dict(color="#d1d5db",family="Inter"),
+                           xaxis=dict(tickangle=-35,gridcolor="#2a2d3a"),
+                           yaxis=dict(gridcolor="#2a2d3a"), coloraxis_showscale=False,
                            margin=dict(l=0,r=0,t=20,b=100), height=300)
     st.plotly_chart(fig_dom, use_container_width=True)
 
