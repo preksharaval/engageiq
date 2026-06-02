@@ -140,7 +140,32 @@ class Ranker:
             scored = rerank_fn(scored)          # Stage 3a: bandit rerank (adaptive learning)
         if diversity:
             scored = self._diversify(scored, decay=diversity_decay)  # Stage 3b: diversity
+        scored = self._collapse_near_dupes(scored)  # Stage 3c: one item per title stem
         return scored[:topn]
+
+    @staticmethod
+    def _title_stem(title: str) -> str:
+        """Normalize a title to its stem so 'Add formatter to language server #267'
+        and '#450' collapse to the same key (templated synthetic titles, near-dups)."""
+        import re
+        t = (title or "").lower()
+        t = re.sub(r"#\d+", "", t)            # drop issue/PR numbers
+        t = re.sub(r"[^a-z0-9 ]+", " ", t)    # strip punctuation
+        t = re.sub(r"\s+", " ", t).strip()
+        return t
+
+    @classmethod
+    def _collapse_near_dupes(cls, scored):
+        """Keep only the highest-ranked item per title stem so the final list shows
+        distinct opportunities, not ten variants of the same templated title."""
+        seen, out = set(), []
+        for o in scored:
+            stem = cls._title_stem(o.get("title", ""))
+            if stem and stem in seen:
+                continue
+            seen.add(stem)
+            out.append(o)
+        return out
 
     @staticmethod
     def _diversify(scored, decay=0.85):

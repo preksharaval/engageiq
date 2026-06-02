@@ -313,8 +313,40 @@ with st.sidebar:
 # ══════════════════════════════════════════════════════════════════════════════
 st.markdown("""<div class="eq-header">
   <h1>EngageIQ</h1>
-  <p>Smart Engagement Opportunity Scorer · GitHub · Hacker News · Reddit</p>
+  <p>Where should you show up online to grow your tech career?</p>
 </div>""", unsafe_allow_html=True)
+
+# ── plain-language intro + how it works (so a first-time viewer gets it instantly) ──
+st.markdown("""
+<div style="max-width:920px;margin:0 auto 1.25rem;">
+  <div style="background:var(--surface);border:1px solid var(--glass-b);border-radius:14px;
+              padding:1.1rem 1.4rem;color:var(--text);font-family:'Inter',sans-serif;
+              font-size:0.92rem;line-height:1.65;">
+    <span style="color:var(--accent);font-weight:700;">What is this?</span>
+    Every week there are thousands of places a developer <i>could</i> engage online &mdash; open-source
+    issues to fix, Hacker News threads to weigh in on, Reddit questions to answer &mdash; but no easy way
+    to know which are worth the time. <b>EngageIQ scans real opportunities from GitHub, Hacker News, and
+    Reddit across 15 technical domains, then ranks the ones that fit your skills and weekly hours</b>, and
+    explains <i>why</i> each one made the list.
+  </div>
+  <div style="display:flex;gap:10px;margin-top:0.7rem;flex-wrap:wrap;">
+""" + "".join([
+    f"""<div style="flex:1;min-width:170px;background:var(--surface-2);border:1px solid var(--glass-b);
+            border-radius:10px;padding:0.6rem 0.8rem;font-size:0.78rem;color:var(--muted);
+            font-family:'Inter',sans-serif;line-height:1.4;">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+            border-radius:50%;background:rgba(129,140,248,0.18);color:#a5b4fc;font-weight:700;
+            margin-right:6px;">{n}</span>{txt}</div>"""
+    for n, txt in [
+        (1, "Set your domains &amp; weekly hours in the sidebar"),
+        (2, "EngageIQ ranks 10,995 live opportunities for you"),
+        (3, "See <i>why</i> each was picked, plus a suggested action"),
+        (4, "Engage / Skip to teach it your taste over time"),
+    ]
+]) + """
+  </div>
+</div>
+""", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TABS
@@ -326,8 +358,12 @@ with tab1:
     if not interests:
         st.markdown("""<div class="eq-card" style="text-align:center;padding:2rem;">
           <div style="font-size:2rem;">👈</div>
-          <div style="color:var(--muted);font-family:'Inter',sans-serif;font-size:0.8rem;margin-top:0.5rem;">
-            Pick your domains in the sidebar to discover opportunities
+          <div style="color:var(--text);font-family:'Inter',sans-serif;font-size:0.95rem;margin-top:0.5rem;font-weight:600;">
+            Pick a few domains in the sidebar to get started
+          </div>
+          <div style="color:var(--muted);font-family:'Inter',sans-serif;font-size:0.8rem;margin-top:0.35rem;">
+            Choose what you work on (e.g. Machine Learning, DevOps), set your weekly hours,
+            and EngageIQ will rank the best places to engage this week.
           </div>
         </div>""", unsafe_allow_html=True)
     else:
