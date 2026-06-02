@@ -65,7 +65,7 @@ def trending_keywords(top=12) -> pd.DataFrame:
     return out.reset_index(drop=True)
 
 
-
+def growing_domains() -> pd.DataFrame:
     df = _df()
     g = df.groupby("domain").agg(
         volume=("id", "count"),
