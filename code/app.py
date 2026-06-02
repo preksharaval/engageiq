@@ -263,7 +263,12 @@ def opp_card(opp, rank):
             st.markdown(f"""<div style="background:rgba(129,140,248,0.10);border-left:3px solid var(--accent);
                             border-radius:8px;padding:10px 14px;font-size:0.82rem;line-height:1.5;
                             color:#cbd5e1;">{action}</div>""", unsafe_allow_html=True)
-            st.markdown(f"[🔗 View on {src}]({opp.get('url','#')})")
+            url = opp.get('url','')
+            is_synth = 'synth' in url or (opp.get('author','') or '').startswith('synth_')
+            if url and not is_synth:
+                st.markdown(f"[🔗 View on {src}]({url})")
+            else:
+                st.caption("📌 Synthetic record — no live URL (real ingestion requires API credentials)")
         st.markdown("**Your feedback** *(trains the bandit)*")
         uid = st.session_state.get("user_id","guest")
         cols = st.columns(3)
@@ -287,23 +292,30 @@ with st.sidebar:
     </div>""", unsafe_allow_html=True)
     st.divider()
 
-    user_id = st.text_input("Your ID", value="preksha", placeholder="any username")
+    user_id = st.text_input("Your name", value="preksha", placeholder="any name",
+                            help="Used only to remember your Engage/Skip feedback so results personalize for you.")
     st.session_state["user_id"] = user_id
 
     interests = st.multiselect(
-        "Domains", options=list(DOMAIN_LABELS.keys()),
+        "What do you work on?", options=list(DOMAIN_LABELS.keys()),
         format_func=lambda k: DOMAIN_LABELS[k],
         default=["ml", "ai_research", "developer_tools"],
+        help="Pick the technical areas you want opportunities in.",
     )
-    free_text = st.text_area("Describe your goals", placeholder="e.g. I want to contribute to ML projects and build my GitHub portfolio...", height=90)
-    time_budget = st.slider("⏱ Hours/week", 1, 20, 5)
-    platforms = st.multiselect("Platforms", ["github","hackernews","reddit"],
-                               default=["github","hackernews","reddit"])
-    topn = st.slider("Results to show", 5, 30, 10)
-    adaptive = st.toggle("🧠 Adaptive bandit ranking", value=True)
-    diversify = st.toggle("🎨 Diversity re-ranking", value=True,
-                          help="Stage-3 re-rank: penalize repeated source+domain so the "
-                               "list isn't ten near-identical items (Lecture 6).")
+    free_text = st.text_area("Your goal (optional)", placeholder="e.g. I want to contribute to ML projects and build my GitHub portfolio...", height=90,
+                             help="A sentence about what you're trying to do. Sharpens the ranking.")
+    time_budget = st.slider("⏱ Hours per week", 1, 20, 5,
+                            help="How much time you have. Used to fit the weekly plan to your schedule.")
+    platforms = st.multiselect("Where to look", ["github","hackernews","reddit"],
+                               default=["github","hackernews","reddit"],
+                               help="Which sources to pull opportunities from.")
+    topn = st.slider("How many results", 5, 30, 10)
+    adaptive = st.toggle("🧠 Personalize from my feedback", value=True,
+                         help="Learns from your Engage/Bookmark/Skip clicks to reorder results "
+                              "(a LinUCB contextual bandit — BAX-423 Lecture 8).")
+    diversify = st.toggle("🎨 Mix up the results", value=True,
+                          help="Keeps the list varied instead of ten near-identical items "
+                               "(diversity re-ranking — BAX-423 Lecture 6).")
 
     st.divider()
     st.markdown("<div style='font-size:0.7rem;color:#64748b;font-family:Space Mono,monospace;'>BAX-423 · Spring 2026<br>UC Davis GSM</div>", unsafe_allow_html=True)
@@ -325,9 +337,7 @@ st.markdown("""
     <span style="color:var(--accent);font-weight:700;">What is this?</span>
     Every week there are thousands of places a developer <i>could</i> engage online &mdash; open-source
     issues to fix, Hacker News threads to weigh in on, Reddit questions to answer &mdash; but no easy way
-    to know which are worth the time. <b>EngageIQ scans real opportunities from GitHub, Hacker News, and
-    Reddit across 15 technical domains, then ranks the ones that fit your skills and weekly hours</b>, and
-    explains <i>why</i> each one made the list.
+    to know which are worth the time. <b>EngageIQ indexes opportunities from GitHub, Hacker News, and Reddit across 15 technical domains — 865 real GitHub records from the API, plus realistic synthetic data for HN and Reddit — then ranks the ones that fit your skills and weekly hours</b> and explains <i>why</i> each made the list.
   </div>
   <div style="display:flex;gap:10px;margin-top:0.7rem;flex-wrap:wrap;">
 """ + "".join([
@@ -339,7 +349,7 @@ st.markdown("""
             margin-right:6px;">{n}</span>{txt}</div>"""
     for n, txt in [
         (1, "Set your domains &amp; weekly hours in the sidebar"),
-        (2, "EngageIQ ranks 10,995 live opportunities for you"),
+        (2, "EngageIQ ranks 10,995 indexed opportunities for you"),
         (3, "See <i>why</i> each was picked, plus a suggested action"),
         (4, "Engage / Skip to teach it your taste over time"),
     ]

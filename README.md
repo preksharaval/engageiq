@@ -48,6 +48,13 @@ and persona check on every push so a broken commit never reaches the live demo.
 
 ## Refresh with live data (already done for GitHub; re-run anytime)
 
+> **Heads up on the shipped data:** the offline snapshot has **865 real GitHub records**
+> pulled live from the GitHub REST API (including good-first-issue repos and issues).
+> Hacker News and Reddit records in the shipped DB are **realistic synthetic data** —
+> those APIs were network-restricted in the build environment. The ingestion scripts
+> below pull live HN/Reddit data with the right credentials. This is documented under
+> *Limitations* in `brief.pdf`, and the app's Methods tab shows the live breakdown.
+
 ```bash
 export GITHUB_TOKEN=ghp_xxx                   # github.com/settings/tokens (public_repo)
 export REDDIT_CLIENT_ID=xxx                   # reddit.com/prefs/apps (script app)

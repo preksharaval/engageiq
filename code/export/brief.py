@@ -67,6 +67,15 @@ def build_brief_pdf(profile: dict, ranked: list[dict], top: int = 10) -> bytes:
         ss["Normal"]))
     story.append(Spacer(1, 14))
 
+    # ── data sources disclosure (honest about what's real vs synthetic) ──
+    story.append(Paragraph(
+        "<font size=8 color='#64748b'><b>Data sources:</b> 865 records are real GitHub API pulls "
+        "(including good-first-issue repos and issues). The rest are realistic synthetic records "
+        "for Hacker News and Reddit, generated because those APIs were network-restricted in the "
+        "build environment. Ingestion scripts ship with the project and pull live HN/Reddit data "
+        "with API credentials. See <i>Limitations</i> in the project brief.</font>", ss["Normal"]))
+    story.append(Spacer(1, 12))
+
     # trends snapshot
     story.append(Paragraph("Trending in your domains", ss["Heading2"]))
     tr = trending_topics(domains=profile.get("interests") or None, top=5)
