@@ -7,8 +7,8 @@ limited time online** across GitHub, Hacker News, and Reddit — across 15 techn
 domains. It explains every ranking ("Why this?"), learns from your feedback via a
 contextual bandit, shows trends, and exports a downloadable weekly engagement brief.
 
-**Live demo:** &lt;paste your Streamlit Cloud URL here and in brief.pdf&gt;
-**GitHub:** &lt;paste your repo URL here and in brief.pdf&gt;
+**Live demo:** https://engageiq-y9wrtshi9hgavbyxhz6jb6.streamlit.app
+**GitHub:** https://github.com/preksharaval/engageiq
 
 ---
 
@@ -33,14 +33,14 @@ zero API access. Streamlit prints a local URL — open it and the demo is live.
 ## Verify everything works
 
 ```bash
-pytest tests/ -v                             # 12 regression tests (data, ranking, dedup, cold-start)
+pytest tests/ -v                             # 15 regression tests (data, ranking, dedup, cold-start)
 python code/eval/personas.py                 # 4/4 personas PASS
 python code/eval/benchmarks.py               # Recall@50 + bandit-vs-static + charts
 python code/ingest/stream_pipeline.py --replay --limit 3000   # streaming + dedup demo
 python code/monitoring.py                    # data validation + freshness + drift health check
 ```
 
-Expected: 12 tests pass · personas 4/4 PASS · Recall@50 ≈ 0.99 (FAISS) vs 0.74 (lexical) ·
+Expected: 15 tests pass · personas 4/4 PASS · Recall@50 ≈ 0.99 (FAISS) vs 0.74 (lexical) ·
 streaming ≈ 1,400+ rec/s with ~4% dedup. CI (`.github/workflows/ci.yml`) runs the tests
 and persona check on every push so a broken commit never reaches the live demo.
 

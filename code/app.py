@@ -268,7 +268,8 @@ def opp_card(opp, rank):
             if url and not is_synth:
                 st.markdown(f"[🔗 View on {src}]({url})")
             else:
-                st.caption("📌 Synthetic record — no live URL (real ingestion requires API credentials)")
+                st.caption("📡 Sample HN/Reddit record — this build ships a snapshot; "
+                           "live API ingestion is built in (see the Methods tab).")
         st.markdown("**Your feedback** *(trains the bandit)*")
         uid = st.session_state.get("user_id","guest")
         cols = st.columns(3)
@@ -560,6 +561,12 @@ with tab4:
     m2.metric("Domains", n_domains)
     m3.metric("Sources", n_sources)
     m4.metric("Real Records", f"{n_real:,}")
+    st.caption(f"📌 **Data composition:** {n_real:,} **real** GitHub records pulled live from the API "
+               f"(including good-first-issue repos and issues). The remaining {total_rec - n_real:,} are "
+               f"**realistic synthetic** records for Hacker News and Reddit — those APIs were "
+               f"network-restricted in the build environment. The ingestion scripts in "
+               f"`code/ingest/` are fully built and pull live HN/Reddit data with the right "
+               f"API credentials (see `.env.example`). This is documented under Limitations in `brief.pdf`.")
 
     fig_dom = px.bar(domain_df, x="domain", y="count",
                      color="count", color_continuous_scale=[[0,"#4f46e5"],[1,"#818cf8"]])
