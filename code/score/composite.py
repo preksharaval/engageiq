@@ -71,7 +71,9 @@ class Ranker:
         for d in interests:
             if d in self.cfg["domains"]:
                 kws += self.cfg["domains"][d]["keywords"][:5]
-        text = " ".join(labels + kws) + " " + free_text
+        # Repeat free_text 3x so goal/role words have real influence over domain terms
+        ft_boosted = (" " + free_text.strip()) * 3 if free_text.strip() else ""
+        text = " ".join(labels + kws) + ft_boosted
         return self.enc.encode([text])[0]
 
     # ---- retrieval -----------------------------------------------------

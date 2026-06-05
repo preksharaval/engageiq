@@ -304,7 +304,38 @@ with st.sidebar:
         help="Pick the technical areas you want opportunities in.",
     )
     free_text = st.text_area("Your goal (optional)", placeholder="e.g. I want to contribute to ML projects and build my GitHub portfolio...", height=90,
-                             help="A sentence about what you're trying to do. Sharpens the ranking.")
+                             help="Describe your role or goal. This shifts which opportunities rank highest for you.")
+
+    # ── smart goal hint: suggest relevant domains if goal text is entered ──
+    if free_text.strip():
+        ft_lower = free_text.lower()
+        GOAL_HINTS = {
+            ("gtm","growth","marketer","marketing","product launch","go-to-market"):
+                ("developer_tools","cloud_apis","frontend_web"),
+            ("security","cybersecurity","pentest","vulnerability","infosec"):
+                ("cybersecurity",),
+            ("devops","kubernetes","k8s","infrastructure","sre","platform engineer"):
+                ("devops_k8s","cloud_apis"),
+            ("frontend","web","ui","ux","react","vue","css"):
+                ("frontend_web","developer_tools"),
+            ("data","analytics","pipeline","spark","dbt","sql","warehouse"):
+                ("python_data_eng","ml"),
+            ("nlp","llm","language model","transformer","bert","gpt"):
+                ("ml","ai_research"),
+            ("mobile","ios","android","swift","kotlin"):
+                ("mobile_dev",),
+            ("contribute","open source","pr","pull request","good first issue"):
+                ("ml","ai_research","developer_tools"),
+        }
+        suggested = []
+        for keywords, domains in GOAL_HINTS.items():
+            if any(k in ft_lower for k in keywords):
+                for d in domains:
+                    if d not in interests and d not in suggested:
+                        suggested.append(d)
+        if suggested:
+            domain_names = [DOMAIN_LABELS.get(d, d) for d in suggested[:3]]
+            st.caption(f"💡 Your goal suggests: **{', '.join(domain_names)}** — try adding these domains above for more relevant results.")
     time_budget = st.slider("⏱ Hours per week", 1, 20, 5,
                             help="How much time you have. Used to fit the weekly plan to your schedule.")
     platforms = st.multiselect("Where to look", ["github","hackernews","reddit"],
