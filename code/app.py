@@ -350,6 +350,8 @@ with st.sidebar:
                                "(diversity re-ranking — BAX-423 Lecture 6).")
 
     st.divider()
+    go = st.button("🔍  Find Opportunities", use_container_width=True,
+                   help="Click to rank opportunities for your current profile.")
     st.markdown("<div style='font-size:0.7rem;color:#64748b;font-family:Space Mono,monospace;'>BAX-423 · Spring 2026<br>UC Davis GSM</div>", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -409,33 +411,58 @@ with tab1:
           </div>
         </div>""", unsafe_allow_html=True)
     else:
-        problems = validate_profile(interests, free_text, time_budget)
-        if problems:
-            for p in problems:
-                st.warning(p)
-            st.stop()
+        # ── Run ranking only when Go is clicked; show cached results otherwise ──
+        if go:
+            problems = validate_profile(interests, free_text, time_budget)
+            if problems:
+                for p in problems:
+                    st.warning(p)
+                st.stop()
+            try:
+                with st.spinner("⚡ Scoring opportunities..."):
+                    ranker = get_ranker()
+                    rerank_fn = None
+                    cold = False
+                    if adaptive:
+                        bandit = load_bandit(user_id)
+                        cold = bandit.is_cold
+                        rerank_fn = make_rerank_fn(bandit)
+                    results = ranker.rank(
+                        interests=interests, free_text=free_text,
+                        platforms=platforms, topn=topn,
+                        rerank_fn=rerank_fn, diversity=diversify,
+                    )
+                st.session_state["cached_results"] = results
+                st.session_state["cached_cold"]    = cold
+                st.session_state["cached_profile"] = (interests, free_text, platforms, topn)
+            except Exception:
+                log.exception("ranking_failed user=%s interests=%s", user_id, interests)
+                st.error("Something went wrong while scoring. Please adjust your profile and try again.")
+                st.stop()
 
-        cold = False
-        try:
-            with st.spinner("⚡ Scoring opportunities..."):
-                ranker = get_ranker()
-                rerank_fn = None
-                if adaptive:
-                    bandit = load_bandit(user_id)
-                    cold = bandit.is_cold
-                    rerank_fn = make_rerank_fn(bandit)
-                results = ranker.rank(
-                    interests=interests, free_text=free_text,
-                    platforms=platforms, topn=topn,
-                    rerank_fn=rerank_fn, diversity=diversify,
-                )
-        except Exception:
-            # Generic message to the user; full traceback to the logs (Lecture 10).
-            log.exception("ranking_failed user=%s interests=%s", user_id, interests)
-            st.error("Something went wrong while scoring. Please adjust your profile and try again.")
-            st.stop()
+        results = st.session_state.get("cached_results")
+        cold    = st.session_state.get("cached_cold", False)
+
+        # Profile changed since last run? Nudge the user to click Go again.
+        last_profile = st.session_state.get("cached_profile")
+        current_profile = (interests, free_text, platforms, topn)
+        if results and last_profile and last_profile != current_profile:
+            st.info("⚙️ Your profile changed — click **🔍 Find Opportunities** to refresh results.")
 
         if not results:
+            st.markdown("""<div class="eq-card" style="text-align:center;padding:2.5rem;">
+              <div style="font-size:2.5rem;">🔍</div>
+              <div style="color:var(--text);font-family:'Inter',sans-serif;font-size:1rem;
+                          margin-top:0.75rem;font-weight:600;">
+                Ready when you are
+              </div>
+              <div style="color:var(--muted);font-family:'Inter',sans-serif;font-size:0.82rem;
+                          margin-top:0.4rem;max-width:400px;margin-left:auto;margin-right:auto;">
+                Set your domains, goal, and hours in the sidebar — then click
+                <b>🔍 Find Opportunities</b> to see your ranked list.
+              </div>
+            </div>""", unsafe_allow_html=True)
+        elif len(results) == 0:
             st.warning("No opportunities found. Try adding more domains or platforms.")
         else:
             if adaptive and cold:
