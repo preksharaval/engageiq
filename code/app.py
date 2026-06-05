@@ -350,7 +350,7 @@ with st.sidebar:
                                "(diversity re-ranking — BAX-423 Lecture 6).")
 
     st.divider()
-    go = st.button("🔍  Find Opportunities", use_container_width=True,
+    find_btn = st.button("🔍  Find Opportunities", use_container_width=True,
                    help="Click to rank opportunities for your current profile.")
     st.markdown("<div style='font-size:0.7rem;color:#64748b;font-family:Space Mono,monospace;'>BAX-423 · Spring 2026<br>UC Davis GSM</div>", unsafe_allow_html=True)
 
@@ -412,7 +412,7 @@ with tab1:
         </div>""", unsafe_allow_html=True)
     else:
         # ── Run ranking only when Go is clicked; show cached results otherwise ──
-        if go:
+        if find_btn:
             problems = validate_profile(interests, free_text, time_budget)
             if problems:
                 for p in problems:
